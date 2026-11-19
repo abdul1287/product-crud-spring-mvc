@@ -22,8 +22,16 @@ public class AppConfig {
 		DriverManagerDataSource ds = new DriverManagerDataSource();
 		ds.setDriverClassName("com.mysql.cj.jdbc.Driver");
 		ds.setUrl("jdbc:mysql://localhost:3306/product");
-		ds.setUsername("root");
-		ds.setPassword("Abdul@12345");
+		String username = System.getenv("DB_USERNAME");
+        String password = System.getenv("DB_PASSWORD");
+
+            if (username == null || password == null) {
+                throw new IllegalStateException(
+                    "Database environment variables are not configured."
+                );
+            }
+		ds.setUsername(username);
+		ds.setPassword(password);
 		return ds;
 	}
 
